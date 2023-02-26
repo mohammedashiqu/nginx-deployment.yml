@@ -1,0 +1,46 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nginx-deployment
+  name: nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: svc-nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: svc-nginx
+  name: svc-nginx
+spec:
+  ports:
+  - name: 30100-80-80
+    port: 30100
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: svc-nginx
+  type: NodePort
+status:
+  loadBalancer: {}
